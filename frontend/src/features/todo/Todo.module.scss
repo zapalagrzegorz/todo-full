@@ -1,0 +1,10 @@
+.todo {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e7e7e7;
+
+  &__form {
+    .halfWidth {
+      width: 50%;
+    }
+  }
+}
