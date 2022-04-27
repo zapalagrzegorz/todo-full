@@ -10,8 +10,9 @@ class Api::StepsController < ApplicationController
   end
 
   def index
-    steps = Todo.find(params[:todo_id]).steps
-    render json: steps
+    # steps = Todo.find(params[:todo_id]).steps
+
+    render json: Step.all
   end
 
   def destroy
@@ -30,6 +31,7 @@ class Api::StepsController < ApplicationController
   end
 
   private
+
   def step_params
     params.require(:step).permit(:title, :done, :body, :todo_id)
   end

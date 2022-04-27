@@ -1,4 +1,5 @@
 import {
+  createAsyncThunk,
   createEntityAdapter,
   createSlice,
   EntityState,
@@ -19,24 +20,6 @@ interface ToDoItemStep {
   done: boolean;
 }
 
-const initialState = {
-  ids: [1, 2],
-  entities: {
-    1: {
-      id: 1,
-      title: "wash car",
-      body: "with soap",
-      done: false,
-    },
-    2: {
-      id: 2,
-      title: "wash dog",
-      body: "with shampoo",
-      done: true,
-    },
-  },
-};
-
 export interface TodoState {
   [index: number]: ToDoItemI;
 }
@@ -47,13 +30,24 @@ type FetchingStatus = "idle" | "loading" | "succeeded" | "failed";
 
 interface ExtendedEntityAdapterState {
   status: FetchingStatus;
+  error: string | null;
 }
 
 let initialStateTyped: ExtendedEntityAdapterState = {
-  ...(initialState as EntityState<ToDoItemI>),
   status: "idle",
+  error: null,
 };
 const initialTodos = todosAdapter.getInitialState(initialStateTyped);
+
+export const fetchTodos = createAsyncThunk("todos/fetch", async () => {
+  try {
+    const response = await fetch("http://localhost:3000/api/todos");
+    const respJson = await response.json();
+    return respJson;
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 const todosSlice = createSlice({
   name: "todos",
@@ -76,6 +70,17 @@ const todosSlice = createSlice({
     removeTodo: (state, action) => {
       todosAdapter.removeOne(state, action);
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchTodos.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        // state.
+        todosAdapter.setAll(state, action);
+      })
+      .addCase(fetchTodos.pending, (state, action) => {
+        state.status = "loading";
+      });
   },
 });
 

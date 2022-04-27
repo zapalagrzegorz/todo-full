@@ -4,6 +4,7 @@ import {
   createSlice,
   EntityId,
   EntityState,
+  createAsyncThunk,
 } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
@@ -41,6 +42,16 @@ export interface StepsState {
 
 const stepsAdapter = createEntityAdapter<ToDoItemStep>();
 
+export const fetchSteps = createAsyncThunk("steps/fetch", async () => {
+  try {
+    const stepsResponse = await fetch("http://localhost:3000/api/steps");
+    const stepsJson = await stepsResponse.json();
+    return stepsJson;
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 const stepsSlice = createSlice({
   name: "steps",
   initialState: stepsAdapter.getInitialState(initialSteps),
@@ -56,6 +67,11 @@ const stepsSlice = createSlice({
     removeStep: (state, action) => {
       stepsAdapter.removeOne(state, action);
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchSteps.fulfilled, (state, action) => {
+      stepsAdapter.setAll(state, action);
+    });
   },
 });
 

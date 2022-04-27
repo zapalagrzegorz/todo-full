@@ -17,8 +17,10 @@ import {
 function App() {
   // called twice when not in useEffect!
   useEffect(() => {
+
     // dispatch(receiveTodos(initialState));
-  }, []);
+
+  },[]);
 
   return (
     <div className="App">
