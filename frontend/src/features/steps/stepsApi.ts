@@ -1,13 +1,17 @@
 // TodoAPIUtil
 import { client } from "../../api/client";
-import { IToDoItem, IToDoItemContent } from "./todosSlice";
+import { IToDoItemStepContent } from "./stepsSlice";
+// import { IToDoItem, IToDoItemContent } from "./todosSlice";
 
-export const fetchTodos = async () => {
-  const response = await client.get("http://localhost:3000/api/todos");
+export const fetchSteps = async (todoId: number) => {
+  // const
+  const response = await client.get(
+    `http://localhost:3000/api/todos/${todoId}/steps`
+  );
   return response.data;
 };
 
-export const createTodo = async (body: IToDoItemContent) => {
+export const createStep = async (body: IToDoItemStepContent) => {
   const config = { headers: {} };
   const csrfNode = document.querySelector<HTMLInputElement>(
     "[name='authenticity_token']"
@@ -18,14 +22,14 @@ export const createTodo = async (body: IToDoItemContent) => {
     // throw new Error("No CSRF Token");
   }
   const response = await client.post(
-    "http://localhost:3000/api/todos",
+    "http://localhost:3000/api/steps",
     body,
     config
   );
   return response.data;
 };
 
-export const deleteTodo = async (body: number) => {
+export const deleteStep = async (body: number) => {
   const config = { headers: {} };
   const csrfNode = document.querySelector<HTMLInputElement>(
     "[name='authenticity_token']"
@@ -36,7 +40,7 @@ export const deleteTodo = async (body: number) => {
     // throw new Error("No CSRF Token");
   }
   const response = await client.delete(
-    `http://localhost:3000/api/todos/${body}`,
+    `http://localhost:3000/api/steps/${body}`,
     config
   );
   return response.data;

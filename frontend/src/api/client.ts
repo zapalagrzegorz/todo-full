@@ -3,7 +3,9 @@
 
 interface ClientOptions {
   body?: any;
-  customConfig?: any;
+  customConfig?: {
+    method?: string;
+  };
 }
 
 interface FetchConfig {
@@ -18,8 +20,9 @@ export async function client(endpoint: string, clientArg = {}) {
   const { body, ...customConfig }: ClientOptions = clientArg;
   const headers = { "Content-Type": "application/json" };
 
+  const method = (customConfig as any).method as any;
   const config: FetchConfig = {
-    method: body ? "POST" : "GET",
+    method: method ? method : "GET",
     ...customConfig,
     headers: {
       ...headers,
@@ -56,4 +59,7 @@ client.get = function (endpoint: string, customConfig = {}) {
 
 client.post = function (endpoint: string, body: any, customConfig = {}) {
   return client(endpoint, { ...customConfig, body });
+};
+client.delete = function (endpoint: string, customConfig = {}) {
+  return client(endpoint, { ...customConfig, method: "DELETE" });
 };

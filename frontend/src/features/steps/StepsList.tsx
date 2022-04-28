@@ -12,6 +12,7 @@ export const StepsList = ({ todoId }: StepListProps) => {
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+
   const todoSteps = useAppSelector((state) =>
     selectStepsByTodoId(state, todoId)
   );

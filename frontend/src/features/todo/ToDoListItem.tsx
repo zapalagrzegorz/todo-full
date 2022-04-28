@@ -6,13 +6,15 @@ import {
   receiveTodo,
   removeTodo,
   selectTodoById,
-  ToDoItemI,
+  IToDoItem,
+  deleteTodo,
 } from "./todosSlice";
 import styles from "./Todo.module.scss";
 import { useDispatch } from "react-redux";
 import { StepsList } from "../steps/StepsList";
 import { Button, Collapse, IconButton, Stack, Typography } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import { ToDoDetails } from "./ToDoDetails";
 
 interface ToDoListItemProps {
   todoId: EntityId;
@@ -32,15 +34,17 @@ export const ToDoListItem = ({ todoId }: ToDoListItemProps) => {
     setDone(!isDone);
   };
 
-  const handleDelete = () => {
-    dispatch(removeTodo(todoId));
-  };
   const todoClasses = classNames(styles.todo, {
     [styles.open]: isOpen,
   });
 
   if (!todo) {
     return null;
+  }
+
+  let details;
+  if (isOpen) {
+    details = <ToDoDetails todo={todo} />;
   }
   return (
     <div className={todoClasses}>
@@ -49,13 +53,6 @@ export const ToDoListItem = ({ todoId }: ToDoListItemProps) => {
           {todo.title}
         </Typography>
 
-        {/* <IconButton
-          aria-label="done"
-          onClick={handleToggleDone}
-          color="primary"
-        >
-          <CheckCircleOutlineIcon />
-        </IconButton> */}
         <Button size="small" onClick={handleToggleDone}>
           {isDone ? "Undone" : "Done"}
         </Button>
@@ -65,23 +62,7 @@ export const ToDoListItem = ({ todoId }: ToDoListItemProps) => {
           {isOpen ? "Show less" : "Show more"}
         </Button>
       </div>
-      <Collapse in={isOpen}>
-        <div className={styles.todo__details}>
-          <Typography variant="h6" paragraph={true} sx={{ pt: 1, mb: 0 }}>
-            Details:
-          </Typography>
-          <Typography paragraph={true}>{todo.body}</Typography>
-          <StepsList todoId={todoId} />
-          <Button
-            color="error"
-            variant="outlined"
-            onClick={handleDelete}
-            sx={{ mt: 4 }}
-          >
-            Delete Todo
-          </Button>
-        </div>
-      </Collapse>
+      <Collapse in={isOpen}>{details}</Collapse>
     </div>
   );
 };

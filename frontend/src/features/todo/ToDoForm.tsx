@@ -2,7 +2,7 @@ import { Button, Paper, Stack, TextField, Typography } from "@mui/material";
 import { nanoid } from "@reduxjs/toolkit";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { receiveTodo } from "./todosSlice";
+import { createTodo, receiveTodo } from "./todosSlice";
 import styles from "./Todo.module.scss";
 // import { receiveStep, selectStepsByTodoId } from "./stepsSlice";
 
@@ -10,12 +10,23 @@ export const ToDoForm = () => {
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [helperTextTitle, setHelperTextTitle] = useState("");
+  const [helperBodyTitle, setHelperBodyTitle] = useState("");
+  // const [body, setBody] = useState("");
 
   const addTodo = (e: FormEvent) => {
     e.preventDefault();
 
-    const newTodo = { id: nanoid(), title, body, done: false };
-    dispatch(receiveTodo(newTodo));
+    const newTodo = { title, body, done: false };
+    if (!title) {
+      setHelperTextTitle("Title is required");
+      return;
+    }
+    if (!body) {
+      setHelperBodyTitle("Body is required");
+      return;
+    }
+    dispatch(createTodo(newTodo));
   };
   return (
     <Paper variant="outlined" sx={{ p: 3 }}>
@@ -33,6 +44,8 @@ export const ToDoForm = () => {
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setTitle(e.target.value)
             }
+            error={helperTextTitle ? true : false}
+            helperText={helperTextTitle}
           />
           <div className={styles.halfWidth}>
             <TextField
@@ -46,6 +59,8 @@ export const ToDoForm = () => {
                 setBody(e.target.value)
               }
               sx={{ mb: 3 }}
+              error={helperBodyTitle ? true : false}
+              helperText={helperBodyTitle}
             />
           </div>
           <Button type="submit" variant="contained">

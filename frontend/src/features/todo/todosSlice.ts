@@ -6,8 +6,15 @@ import {
 } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
-export interface ToDoItemI {
+import * as TodoAPI from "./todoApi";
+export interface IToDoItem {
   id: number;
+  title: string;
+  body: string;
+  done: boolean;
+  steps?: ToDoItemStep[];
+}
+export interface IToDoItemContent {
   title: string;
   body: string;
   done: boolean;
@@ -20,11 +27,11 @@ interface ToDoItemStep {
   done: boolean;
 }
 
-export interface TodoState {
-  [index: number]: ToDoItemI;
-}
+// export interface TodoState {
+//   [index: number]: IToDoItem;
+// }
 
-const todosAdapter = createEntityAdapter<ToDoItemI>();
+const todosAdapter = createEntityAdapter<IToDoItem>();
 // const stepsAdapter = createEntityAdapter<ToDoItemStep>();
 type FetchingStatus = "idle" | "loading" | "succeeded" | "failed";
 
@@ -40,14 +47,22 @@ let initialStateTyped: ExtendedEntityAdapterState = {
 const initialTodos = todosAdapter.getInitialState(initialStateTyped);
 
 export const fetchTodos = createAsyncThunk("todos/fetch", async () => {
-  try {
-    const response = await fetch("http://localhost:3000/api/todos");
-    const respJson = await response.json();
-    return respJson;
-  } catch (error) {
-    console.log(error);
-  }
+  return await TodoAPI.fetchTodos();
 });
+
+export const createTodo = createAsyncThunk(
+  "todos/createTodo",
+  async (todoItem: IToDoItemContent) => {
+    return await TodoAPI.createTodo(todoItem);
+  }
+);
+
+export const deleteTodo = createAsyncThunk(
+  "todos/deleteTodo",
+  async (id: number) => {
+    return await TodoAPI.deleteTodo(id);
+  }
+);
 
 const todosSlice = createSlice({
   name: "todos",
@@ -80,6 +95,13 @@ const todosSlice = createSlice({
       })
       .addCase(fetchTodos.pending, (state, action) => {
         state.status = "loading";
+      })
+      .addCase(createTodo.fulfilled, (state, action) => {
+        // state.
+        todosAdapter.addOne(state, action);
+      })
+      .addCase(deleteTodo.fulfilled, (state, action) => {
+        todosAdapter.removeOne(state, action.payload.id);
       });
   },
 });

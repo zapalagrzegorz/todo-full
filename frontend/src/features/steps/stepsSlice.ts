@@ -8,33 +8,18 @@ import {
 } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
-export interface ToDoItemStep {
-  id: number;
+import * as stepAPI from "../steps/stepsApi";
+
+export interface IToDoItemStepContent {
   todo_id: number;
   title: string;
   done: boolean;
   body: string;
 }
 
-const initialSteps: EntityState<ToDoItemStep> = {
-  ids: [1, 2],
-  entities: {
-    1: {
-      id: 1,
-      todo_id: 1,
-      title: "buy soap",
-      body: "at leclerc Sonamax",
-      done: false,
-    },
-    2: {
-      id: 2,
-      todo_id: 1,
-      title: "prepare water",
-      body: "check rubber pipe at home",
-      done: false,
-    },
-  },
-};
+export interface ToDoItemStep extends IToDoItemStepContent {
+  id: number;
+}
 
 export interface StepsState {
   [index: number]: ToDoItemStep;
@@ -42,19 +27,20 @@ export interface StepsState {
 
 const stepsAdapter = createEntityAdapter<ToDoItemStep>();
 
-export const fetchSteps = createAsyncThunk("steps/fetch", async () => {
-  try {
-    const stepsResponse = await fetch("http://localhost:3000/api/steps");
-    const stepsJson = await stepsResponse.json();
-    return stepsJson;
-  } catch (error) {
-    console.log(error);
+export const fetchSteps = createAsyncThunk(
+  "steps/fetchAll",
+  async (todoId: number) => {
+    return await stepAPI.fetchSteps(todoId);
   }
-});
+);
+
+// export const fetchSteps = createAsyncThunk("steps/fetch", async () => {
+//   return await stepAPI.fetchSteps();
+// });
 
 const stepsSlice = createSlice({
   name: "steps",
-  initialState: stepsAdapter.getInitialState(initialSteps),
+  initialState: stepsAdapter.getInitialState(),
   reducers: {
     // Do not merge the old todos state with the new todos coming in
     receiveSteps: (state, { payload }) => {
@@ -72,6 +58,9 @@ const stepsSlice = createSlice({
     builder.addCase(fetchSteps.fulfilled, (state, action) => {
       stepsAdapter.setAll(state, action);
     });
+    // .addCase(fetchSteps.fulfilled, (state, action) => {
+    //   stepsAdapter.setAll(state, action);
+    // });
   },
 });
 
