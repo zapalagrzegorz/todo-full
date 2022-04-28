@@ -5,9 +5,9 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     resources :todos, only: %i[index show create update destroy] do
-      resources :steps, only: %i[create]
+      resources :steps, only: %i[index create ]
     end
 
-    resources :steps, only: %i[index update destroy]
+    resources :steps, only: %i[update destroy]
   end
 end
