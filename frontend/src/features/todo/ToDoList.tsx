@@ -15,7 +15,6 @@ export const ToDoList = () => {
   useEffect(() => {
     if (todosStatus === "idle") {
       dispatch(fetchTodos());
-      // dispatch(fetchSteps());
     }
   }, [dispatch]);
 

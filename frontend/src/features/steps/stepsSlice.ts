@@ -34,6 +34,13 @@ export const fetchSteps = createAsyncThunk(
   }
 );
 
+export const createStep = createAsyncThunk(
+  "steps/add",
+  async (stepBody: IToDoItemStepContent) => {
+    return await stepAPI.createStep(stepBody);
+  }
+);
+
 // export const fetchSteps = createAsyncThunk("steps/fetch", async () => {
 //   return await stepAPI.fetchSteps();
 // });
@@ -55,9 +62,13 @@ const stepsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchSteps.fulfilled, (state, action) => {
-      stepsAdapter.setAll(state, action);
-    });
+    builder
+      .addCase(fetchSteps.fulfilled, (state, action) => {
+        stepsAdapter.setAll(state, action);
+      })
+      .addCase(createStep.fulfilled, (state, action) => {
+        stepsAdapter.addOne(state, action);
+      });
     // .addCase(fetchSteps.fulfilled, (state, action) => {
     //   stepsAdapter.setAll(state, action);
     // });

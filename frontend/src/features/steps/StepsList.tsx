@@ -4,7 +4,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../app/hooks";
 import { StepListItem } from "./StepListItem";
-import { receiveStep, selectStepsByTodoId } from "./stepsSlice";
+import { createStep, receiveStep, selectStepsByTodoId } from "./stepsSlice";
 interface StepListProps {
   todoId: EntityId;
 }
@@ -24,52 +24,55 @@ export const StepsList = ({ todoId }: StepListProps) => {
   const addStep = (e: FormEvent) => {
     e.preventDefault();
 
-    const newStep = { id: nanoid(), title, body, done: false, todo_id: todoId };
-    dispatch(receiveStep(newStep));
+    const newStep = { title, body, done: false, todo_id: todoId as number };
+    dispatch(createStep(newStep));
+
     setTitle("");
     setBody("");
   };
-  if (!todoSteps.length) {
-    return null;
-  }
-  return (
-    <div>
+  let stepsList;
+  let stepHeader;
+  if (todoSteps.length) {
+    stepHeader = (
       <Typography variant="h5" component="h4" gutterBottom>
         Steps
       </Typography>
-      {todoSteps.map((step) => (
-        <StepListItem key={step.id} step={step} />
-      ))}
+    );
+    stepsList = todoSteps.map((step) => (
+      <StepListItem key={step.id} step={step} />
+    ));
+  }
+  return (
+    <div>
+      {stepHeader}
+      {stepsList}
       <p>Add step:</p>
-      <Stack
-        onSubmit={addStep}
-        spacing={2}
-        component="form"
-        sx={{ width: "25ch" }}
-      >
-        <TextField
-          id="stepTitle"
-          label="Step title"
-          variant="outlined"
-          value={title}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setTitle(e.target.value)
-          }
-        />
-        <TextField
-          id="stepTitle"
-          label="Step description"
-          variant="outlined"
-          margin="normal"
-          value={body}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setBody(e.target.value)
-          }
-        />
+      <Stack spacing={2} sx={{ width: "25ch" }}>
+        <form onSubmit={addStep}>
+          <TextField
+            id="stepTitle"
+            label="Step title"
+            variant="outlined"
+            value={title}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setTitle(e.target.value)
+            }
+          />
+          <TextField
+            id="stepTitle"
+            label="Step description"
+            variant="outlined"
+            margin="normal"
+            value={body}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setBody(e.target.value)
+            }
+          />
+          <Button type="submit" variant="contained" sx={{ mt: 2, mb: 2 }}>
+            Create Step
+          </Button>
+        </form>
       </Stack>
-      <Button type="submit" variant="contained" sx={{ mt: 2, mb: 2 }}>
-        Create Step
-      </Button>
     </div>
   );
 };

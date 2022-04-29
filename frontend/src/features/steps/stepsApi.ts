@@ -22,7 +22,7 @@ export const createStep = async (body: IToDoItemStepContent) => {
     // throw new Error("No CSRF Token");
   }
   const response = await client.post(
-    "http://localhost:3000/api/steps",
+    `http://localhost:3000/api/todos/${body.todo_id}/steps`,
     body,
     config
   );
