@@ -25,6 +25,13 @@ export const createTodo = async (body: IToDoItemContent) => {
   return response.data;
 };
 
+export const updateTodo = async (updateTodo: IToDoItem) => {
+  const response = await client.patch(
+    `http://localhost:3000/api/todos/${updateTodo.id}`,
+    updateTodo
+  );
+  return response.data;
+};
 export const deleteTodo = async (body: number) => {
   const config = { headers: {} };
   const csrfNode = document.querySelector<HTMLInputElement>(

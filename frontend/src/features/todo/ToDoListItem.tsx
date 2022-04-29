@@ -3,11 +3,12 @@ import classNames from "classnames";
 import { useState } from "react";
 import { useAppSelector } from "../../app/hooks";
 import {
-  receiveTodo,
+  // receiveTodo,
   removeTodo,
   selectTodoById,
   IToDoItem,
   deleteTodo,
+  updateTodo,
 } from "./todosSlice";
 import styles from "./Todo.module.scss";
 import { useDispatch } from "react-redux";
@@ -22,25 +23,24 @@ interface ToDoListItemProps {
 export const ToDoListItem = ({ todoId }: ToDoListItemProps) => {
   const todo = useAppSelector((state) => selectTodoById(state, todoId));
   const [isOpen, setOpen] = useState(false);
-  const [isDone, setDone] = useState(todo?.done);
 
   const dispatch = useDispatch();
+
+  if (!todo) {
+    return null;
+  }
 
   const handleToggleShow = () => {
     setOpen(!isOpen);
   };
-  const handleToggleDone = () => {
-    dispatch(receiveTodo({ ...todo, done: !isDone }));
-    setDone(!isDone);
+  const handleToggleDone = async () => {
+    const id: number = todo.id;
+    dispatch(updateTodo({ ...todo, done: !todo.done, id }));
   };
 
   const todoClasses = classNames(styles.todo, {
     [styles.open]: isOpen,
   });
-
-  if (!todo) {
-    return null;
-  }
 
   let details;
   if (isOpen) {
@@ -54,7 +54,7 @@ export const ToDoListItem = ({ todoId }: ToDoListItemProps) => {
         </Typography>
 
         <Button size="small" onClick={handleToggleDone}>
-          {isDone ? "Undone" : "Done"}
+          {todo.done ? "Undone" : "Done"}
         </Button>
       </Stack>
       <div>

@@ -1,5 +1,6 @@
 // A tiny wrapper around fetch(), borrowed from
 // https://kentcdodds.com/blog/replace-axios-with-a-simple-custom-fetch-wrapper
+// from redux tutorial
 
 interface ClientOptions {
   body?: any;
@@ -59,6 +60,9 @@ client.get = function (endpoint: string, customConfig = {}) {
 
 client.post = function (endpoint: string, body: any, customConfig = {}) {
   return client(endpoint, { ...customConfig, body, method: "POST" });
+};
+client.patch = function (endpoint: string, body: any, customConfig = {}) {
+  return client(endpoint, { ...customConfig, body, method: "PATCH" });
 };
 client.delete = function (endpoint: string, customConfig = {}) {
   return client(endpoint, { ...customConfig, method: "DELETE" });

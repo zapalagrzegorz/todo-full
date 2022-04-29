@@ -1,18 +1,15 @@
 import { Button, Typography } from "@mui/material";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { receiveStep, removeStep, ToDoItemStep } from "./stepsSlice";
+import { removeStep, ToDoItemStep, updateStep } from "./stepsSlice";
 
 interface StepListItemProps {
   step: ToDoItemStep;
 }
 export const StepListItem = ({ step }: StepListItemProps) => {
   const dispatch = useDispatch();
-  const [isDone, setDone] = useState(step.done);
 
   const handleToggleDone = () => {
-    dispatch(receiveStep({ ...step, done: !isDone }));
-    setDone(!isDone);
+    dispatch(updateStep({ ...step, done: !step.done }));
   };
 
   const handleDelete = () => {
@@ -27,14 +24,9 @@ export const StepListItem = ({ step }: StepListItemProps) => {
       <Typography paragraph={true}>{step.body}</Typography>
       <div>
         <Button type="submit" onClick={handleToggleDone}>
-          {isDone ? "Undone" : "Done"}
+          {step.done ? "Undone" : "Done"}
         </Button>
-        <Button
-          type="submit"
-          // variant="outlined"
-          color="error"
-          onClick={handleDelete}
-        >
+        <Button type="submit" color="error" onClick={handleDelete}>
           Delete
         </Button>
       </div>

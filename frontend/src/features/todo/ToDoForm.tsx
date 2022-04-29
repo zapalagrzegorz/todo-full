@@ -2,7 +2,7 @@ import { Button, Paper, Stack, TextField, Typography } from "@mui/material";
 import { nanoid } from "@reduxjs/toolkit";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createTodo, receiveTodo } from "./todosSlice";
+import { createTodo } from "./todosSlice";
 import styles from "./Todo.module.scss";
 // import { receiveStep, selectStepsByTodoId } from "./stepsSlice";
 

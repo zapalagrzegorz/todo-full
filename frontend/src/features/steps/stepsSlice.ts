@@ -35,9 +35,16 @@ export const fetchSteps = createAsyncThunk(
 );
 
 export const createStep = createAsyncThunk(
-  "steps/add",
+  "steps/addStep",
   async (stepBody: IToDoItemStepContent) => {
     return await stepAPI.createStep(stepBody);
+  }
+);
+
+export const updateStep = createAsyncThunk(
+  "steps/updateStep",
+  async (updatedStep: ToDoItemStep) => {
+    return await stepAPI.updateStep(updatedStep);
   }
 );
 
@@ -68,6 +75,9 @@ const stepsSlice = createSlice({
       })
       .addCase(createStep.fulfilled, (state, action) => {
         stepsAdapter.addOne(state, action);
+      })
+      .addCase(updateStep.fulfilled, (state, action) => {
+        stepsAdapter.upsertOne(state, action);
       });
     // .addCase(fetchSteps.fulfilled, (state, action) => {
     //   stepsAdapter.setAll(state, action);

@@ -1,6 +1,6 @@
 // TodoAPIUtil
 import { client } from "../../api/client";
-import { IToDoItemStepContent } from "./stepsSlice";
+import { IToDoItemStepContent, ToDoItemStep } from "./stepsSlice";
 // import { IToDoItem, IToDoItemContent } from "./todosSlice";
 
 export const fetchSteps = async (todoId: number) => {
@@ -25,6 +25,14 @@ export const createStep = async (body: IToDoItemStepContent) => {
     `http://localhost:3000/api/todos/${body.todo_id}/steps`,
     body,
     config
+  );
+  return response.data;
+};
+
+export const updateStep = async (updatedStep: ToDoItemStep) => {
+  const response = await client.patch(
+    `http://localhost:3000/api/steps/${updatedStep.id}`,
+    updatedStep
   );
   return response.data;
 };
