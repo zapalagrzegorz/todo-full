@@ -1,12 +1,13 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { stepsReducer } from "../features/steps/stepsSlice";
 import { todosReducer } from "../features/todo/todosSlice";
-
+import { sessionReducer } from "../features/user/sessionSlice";
 
 export const store = configureStore({
   reducer: {
     todos: todosReducer,
     steps: stepsReducer,
+    session: sessionReducer,
   },
 });
 

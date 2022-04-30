@@ -74,15 +74,7 @@ export const deleteTodo = createAsyncThunk(
 const todosSlice = createSlice({
   name: "todos",
   initialState: initialTodos,
-  reducers: {
-    // Do not merge the old todos state with the new todos coming in
-    receiveTodos: (state, { payload }) => {
-      todosAdapter.setAll(state, payload);
-    },
-    removeTodo: (state, action) => {
-      todosAdapter.removeOne(state, action);
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchTodos.fulfilled, (state, action) => {
@@ -105,8 +97,6 @@ const todosSlice = createSlice({
 });
 
 const req = { url: "https://example.com", method: "GET" } as const;
-
-export const { receiveTodos, removeTodo } = todosSlice.actions;
 
 // memoized selectors
 const todosAdapterSelectors = todosAdapter.getSelectors<RootState>(

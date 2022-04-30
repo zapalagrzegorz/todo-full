@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useAppSelector } from "../../app/hooks";
 import {
   // receiveTodo,
-  removeTodo,
   selectTodoById,
   IToDoItem,
   deleteTodo,
