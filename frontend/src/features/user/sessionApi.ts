@@ -45,3 +45,24 @@ export const loginUser = async (userForm: IUserForm) => {
     console.log(err);
   }
 };
+
+export const logoutUser = async () => {
+  const config = { headers: {} };
+  const csrfNode = document.querySelector<HTMLInputElement>(
+    "[name='authenticity_token']"
+  );
+  if (csrfNode) {
+    config.headers = { "X-CSRF-Token": csrfNode.value };
+  } else {
+    // throw new Error("No CSRF Token");
+  }
+  try {
+    const response = await client.delete(
+      "http://localhost:3000/api/session",
+      config
+    );
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};

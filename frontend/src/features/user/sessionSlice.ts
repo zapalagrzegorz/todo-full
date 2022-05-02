@@ -8,43 +8,29 @@ import { RootState } from "../../app/store";
 
 import * as stepAPI from "../steps/stepsApi";
 import { IUserForm } from "./LoginForm";
-import { createUser, loginUser } from "./sessionApi";
+import { createUser, loginUser, logoutUser } from "./sessionApi";
 
-export interface IToDoItemStepContent {
-  todo_id: number;
-  title: string;
-  done: boolean;
-  body: string;
-}
-
-export interface ToDoItemStep extends IToDoItemStepContent {
-  id: number;
-}
-
-export interface StepsState {
-  [index: number]: ToDoItemStep;
-}
-
-// const stepsAdapter = createEntityAdapter<ToDoItemStep>();
-
-export const createStep = createAsyncThunk(
-  "steps/addStep",
-  async (stepBody: IToDoItemStepContent) => {
-    return await stepAPI.createStep(stepBody);
-  }
-);
+const _nullSession = {
+  currentUser: null,
+};
 
 export interface User {
   id: number;
   username: string;
 }
 
-interface ISessionState {
+export interface ISessionState {
   currentUser: User | null;
+  status: string;
 }
 
 const initialState: ISessionState = {
   currentUser: null,
+  // currentUser: {
+  //   username: "Gelo",
+  //   id: 1,
+  // },
+  status: "",
 };
 
 export const loginUserThunk = createAsyncThunk(
@@ -54,6 +40,11 @@ export const loginUserThunk = createAsyncThunk(
     return response;
   }
 );
+
+export const logoutUserThunk = createAsyncThunk("users/logout", async () => {
+  const response = await logoutUser();
+  return response;
+});
 
 export const signupUserThunk = createAsyncThunk(
   "users/signup",
@@ -66,14 +57,7 @@ export const signupUserThunk = createAsyncThunk(
 const sessionSlice = createSlice({
   name: "session",
   initialState: initialState,
-  reducers: {
-    receiveCurrentUser: (state, { payload }) => {
-      state.currentUser = payload;
-    },
-    logoutCurrentUser: (state) => {
-      state.currentUser = null;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(loginUserThunk.fulfilled, (state, action) => {
@@ -81,9 +65,14 @@ const sessionSlice = createSlice({
       })
       .addCase(signupUserThunk.fulfilled, (state, action) => {
         state.currentUser = action.payload;
+      })
+      .addCase(logoutUserThunk.fulfilled, (state, action) => {
+        state.currentUser = null;
+        state.status = action.payload.message;
+        // cannot replace state state = _nullSession
       });
   },
 });
 
-export const { receiveCurrentUser } = sessionSlice.actions;
+// export const {} = sessionSlice.actions;
 export const sessionReducer = sessionSlice.reducer;

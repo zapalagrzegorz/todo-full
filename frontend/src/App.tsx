@@ -6,9 +6,11 @@ import { ToDoList } from "./features/todo/ToDoList";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { LoginPage } from "./LoginPage";
 import { SignupPage } from "./SignupPage";
+import { Navbar } from "./app/Navbar";
 
 function App() {
   // called twice when not in useEffect!
+  // const sessionStatus = useAppSelector((state) => state.session.status);
   useEffect(() => {
     // dispatch(receiveTodos(initialState));
   }, []);
@@ -16,17 +18,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {/* nav */}
-        <Container>
-          <div>
-            <Paper variant="outlined" sx={{ p: 3, mb: 2 }}>
-              <Typography>Login/logout</Typography>
-              <Typography variant="h2" component="h1" align="center">
-                Yet another To-do
-              </Typography>
-            </Paper>
-          </div>
-        </Container>
+        <Navbar />
         <Switch>
           <Route exact={true} path="/">
             <Container>

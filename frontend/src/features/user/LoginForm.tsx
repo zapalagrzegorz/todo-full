@@ -2,7 +2,7 @@ import { Button, Paper, Stack, TextField, Typography } from "@mui/material";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { createUser } from "./sessionApi";
 import { loginUserThunk } from "./sessionSlice";
 export interface IUserForm {
@@ -18,6 +18,7 @@ export interface IUserForm {
 
 export const LoginForm = () => {
   const dispatch = useAppDispatch();
+
   const history = useHistory();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

@@ -5,7 +5,7 @@ class Api::SessionsController < ApplicationController
     @user = User.find_by_credentials(user_params)
     if @user
       # Log them in and redirect them if we find them
-      debugger
+      # debugger
       login!(@user)
       render 'api/users/show'
     else
