@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { createUser } from "./sessionApi";
-import { loginUserThunk } from "./sessionSlice";
+import { clearStatus, loginUserThunk } from "./sessionSlice";
 export interface IUserForm {
   user: {
     username: string;
@@ -39,6 +39,7 @@ export const LoginForm = () => {
     const userForm: IUserForm = { user: { username, password } };
 
     await dispatch(loginUserThunk(userForm));
+    dispatch(clearStatus());
     history.push("/");
   };
   return (
