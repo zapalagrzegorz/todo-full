@@ -1,4 +1,5 @@
 import { client } from "../../api/client";
+import { API_ORIGIN } from "../../api/environment";
 import { IUserForm } from "./LoginForm";
 
 export const createUser = async (userForm: IUserForm) => {
@@ -13,7 +14,7 @@ export const createUser = async (userForm: IUserForm) => {
   }
   try {
     const response = await client.post(
-      "http://localhost:3000/api/users",
+      `${API_ORIGIN}/api/users`,
       userForm,
       config
     );
@@ -35,7 +36,7 @@ export const loginUser = async (userForm: IUserForm) => {
   }
   try {
     const response = await client.post(
-      "http://localhost:3000/api/session",
+      `${API_ORIGIN}/api/session`,
       userForm,
       config
     );
@@ -57,10 +58,7 @@ export const logoutUser = async () => {
     // throw new Error("No CSRF Token");
   }
   try {
-    const response = await client.delete(
-      "http://localhost:3000/api/session",
-      config
-    );
+    const response = await client.delete(`${API_ORIGIN}/api/session`, config);
     return response.data;
   } catch (err) {
     console.log(err);

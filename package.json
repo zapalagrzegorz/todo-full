@@ -12,12 +12,6 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-    "@types/jest": "^24.9.1",
-    "@types/node": "^12.20.48",
-    "@types/react": "^17.0",
-    "@types/react-dom": "^16.9.14",
-    "@types/react-redux": "^7.1.24",
-    "@types/react-router-dom": "^5.3.3",
     "classnames": "^2.3.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
@@ -29,7 +23,7 @@
   },
   "scripts": {
     "start": "cd frontend && PORT=3001 react-scripts start",
-    "build": "node --max_old_space_size=2560 && cd frontend && react-scripts build && rm ../app/assets/javascripts/main* && cp ./build/static/js/main.* ../app/assets/javascripts && cp ./build/static/css/main.* ../app/assets/stylesheets",
+    "build": "cd frontend && react-scripts build && rm ../app/assets/javascripts/main* && cp ./build/static/js/main.* ../app/assets/javascripts && cp ./build/static/css/main.* ../app/assets/stylesheets",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -52,6 +46,12 @@
     ]
   },
   "devDependencies": {
-    "@types/jquery": "^3.5.14"
+    "@types/jquery": "^3.5.14",
+    "@types/jest": "^24.9.1",
+    "@types/node": "^12.20.48",
+    "@types/react": "^17.0",
+    "@types/react-dom": "^16.9.14",
+    "@types/react-redux": "^7.1.24",
+    "@types/react-router-dom": "^5.3.3"
   }
 }

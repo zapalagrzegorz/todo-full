@@ -1,13 +1,12 @@
 // TodoAPIUtil
 import { client } from "../../api/client";
+import { API_ORIGIN } from "../../api/environment";
 import { IToDoItemStepContent, ToDoItemStep } from "./stepsSlice";
 // import { IToDoItem, IToDoItemContent } from "./todosSlice";
 
 export const fetchSteps = async (todoId: number) => {
   // const
-  const response = await client.get(
-    `http://localhost:3000/api/todos/${todoId}/steps`
-  );
+  const response = await client.get(`${API_ORIGIN}/api/todos/${todoId}/steps`);
   return response.data;
 };
 
@@ -22,7 +21,7 @@ export const createStep = async (body: IToDoItemStepContent) => {
     // throw new Error("No CSRF Token");
   }
   const response = await client.post(
-    `http://localhost:3000/api/todos/${body.todo_id}/steps`,
+    `${API_ORIGIN}/api/todos/${body.todo_id}/steps`,
     body,
     config
   );
@@ -31,7 +30,7 @@ export const createStep = async (body: IToDoItemStepContent) => {
 
 export const updateStep = async (updatedStep: ToDoItemStep) => {
   const response = await client.patch(
-    `http://localhost:3000/api/steps/${updatedStep.id}`,
+    `${API_ORIGIN}/api/steps/${updatedStep.id}`,
     updatedStep
   );
   return response.data;
@@ -48,7 +47,7 @@ export const deleteStep = async (body: number) => {
     // throw new Error("No CSRF Token");
   }
   const response = await client.delete(
-    `http://localhost:3000/api/steps/${body}`,
+    `${API_ORIGIN}/api/steps/${body}`,
     config
   );
   return response.data;

@@ -1,6 +1,7 @@
 // TodoAPIUtil
 import { client } from "../../api/client";
 import { IToDoItem, IToDoItemContent } from "./todosSlice";
+import { API_ORIGIN } from "../../api/environment";
 
 export const fetchTodos = async () => {
   const response = await client.get("http://localhost:3000/api/todos");
@@ -17,17 +18,13 @@ export const createTodo = async (body: IToDoItemContent) => {
   } else {
     // throw new Error("No CSRF Token");
   }
-  const response = await client.post(
-    "http://localhost:3000/api/todos",
-    body,
-    config
-  );
+  const response = await client.post(`${API_ORIGIN}/api/todos`, body, config);
   return response.data;
 };
 
 export const updateTodo = async (updateTodo: IToDoItem) => {
   const response = await client.patch(
-    `http://localhost:3000/api/todos/${updateTodo.id}`,
+    `${API_ORIGIN}/api/todos/${updateTodo.id}`,
     updateTodo
   );
   return response.data;
@@ -43,7 +40,7 @@ export const deleteTodo = async (body: number) => {
     // throw new Error("No CSRF Token");
   }
   const response = await client.delete(
-    `http://localhost:3000/api/todos/${body}`,
+    `${API_ORIGIN}/api/todos/${body}`,
     config
   );
   return response.data;

@@ -16,7 +16,7 @@ export const ToDoList = () => {
     if (todosStatus === "idle") {
       dispatch(fetchTodos());
     }
-  }, [dispatch]);
+  }, [dispatch, todosStatus]);
 
   let content;
 

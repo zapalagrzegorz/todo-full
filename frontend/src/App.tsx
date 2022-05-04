@@ -3,14 +3,21 @@ import { useEffect } from "react";
 import "./App.css";
 import { ToDoForm } from "./features/todo/ToDoForm";
 import { ToDoList } from "./features/todo/ToDoList";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
 import { LoginPage } from "./LoginPage";
 import { SignupPage } from "./SignupPage";
 import { Navbar } from "./app/Navbar";
+import { useAppSelector } from "./app/hooks";
 
 function App() {
+  const sessionStatus = useAppSelector((state) => state.session.status);
   // called twice when not in useEffect!
-  // const sessionStatus = useAppSelector((state) => state.session.status);
   useEffect(() => {
     // dispatch(receiveTodos(initialState));
   }, []);
@@ -21,12 +28,16 @@ function App() {
         <Navbar />
         <Switch>
           <Route exact={true} path="/">
-            <Container>
-              <Stack spacing={2}>
-                <ToDoForm />
-                <ToDoList />
-              </Stack>
-            </Container>
+            {!sessionStatus ? (
+              <Redirect to="/login" />
+            ) : (
+              <Container>
+                <Stack spacing={2}>
+                  <ToDoForm />
+                  <ToDoList />
+                </Stack>
+              </Container>
+            )}
           </Route>
           <Route path="/login">
             <LoginPage />

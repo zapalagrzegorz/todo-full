@@ -18,7 +18,7 @@ export const ToDoDetails = (props: { todo: IToDoItem }) => {
   });
 
   const handleDelete = () => {
-    // dispatch(deleteTodo(todoId as number));
+    dispatch(deleteTodo(todoId as number));
   };
 
   const todoSteps = useAppSelector((state) =>
