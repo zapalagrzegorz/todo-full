@@ -23,7 +23,7 @@
   },
   "scripts": {
     "start": "cd frontend && PORT=3001 react-scripts start",
-    "build": "cd frontend && react-scripts build && rm ../app/assets/javascripts/main* && cp ./build/static/js/main.* ../app/assets/javascripts && cp ./build/static/css/main.* ../app/assets/stylesheets",
+    "build": "cd frontend && react-scripts build && cp ./build/static/js/main.* ../app/assets/javascripts && cp ./build/static/css/main.* ../app/assets/stylesheets",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
