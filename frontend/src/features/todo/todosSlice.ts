@@ -85,13 +85,17 @@ const todosSlice = createSlice({
         state.status = "loading";
       })
       .addCase(createTodo.fulfilled, (state, action) => {
-        todosAdapter.addOne(state, action);
+        const { created_at, updated_at, ...todoItem } = action.payload;
+        debugger;
+        todosAdapter.addOne(state, todoItem);
       })
       .addCase(updateTodo.fulfilled, (state, action) => {
         todosAdapter.upsertOne(state, action);
       })
       .addCase(deleteTodo.fulfilled, (state, action) => {
-        todosAdapter.removeOne(state, action.payload.id);
+        const id = action.payload.id;
+        debugger;
+        todosAdapter.removeOne(state, id);
       });
   },
 });
