@@ -31,11 +31,13 @@
     "start": "cd frontend && PORT=3001 react-scripts start",
     "build": "cd frontend && react-scripts build && rm ../app/assets/javascripts/main* && cp ./build/static/js/main.* ../app/assets/javascripts && cp ./build/static/css/main.* ../app/assets/stylesheets",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "postinstall": "npm run build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "engines": {
+    "node": "16.x"
   },
   "browserslist": {
     "production": [
