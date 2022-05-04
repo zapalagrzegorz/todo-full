@@ -6,7 +6,7 @@ import {
   EntityState,
   createAsyncThunk,
 } from "@reduxjs/toolkit";
-import { RootState } from "../../app/store";
+import { RootState, AppThunk } from "../../app/store";
 
 import * as stepAPI from "../steps/stepsApi";
 

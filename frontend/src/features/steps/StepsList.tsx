@@ -1,15 +1,14 @@
 import { Button, Stack, TextField, Typography } from "@mui/material";
 import { EntityId, nanoid } from "@reduxjs/toolkit";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { StepListItem } from "./StepListItem";
 import { createStep, receiveStep, selectStepsByTodoId } from "./stepsSlice";
 interface StepListProps {
   todoId: EntityId;
 }
 export const StepsList = ({ todoId }: StepListProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 

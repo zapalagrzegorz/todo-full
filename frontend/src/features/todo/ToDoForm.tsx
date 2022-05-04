@@ -1,18 +1,16 @@
 import { Button, Paper, Stack, TextField, Typography } from "@mui/material";
 import { nanoid } from "@reduxjs/toolkit";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { createTodo } from "./todosSlice";
 import styles from "./Todo.module.scss";
-// import { receiveStep, selectStepsByTodoId } from "./stepsSlice";
+import { useAppDispatch } from "../../app/hooks";
 
 export const ToDoForm = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [helperTextTitle, setHelperTextTitle] = useState("");
   const [helperBodyTitle, setHelperBodyTitle] = useState("");
-  // const [body, setBody] = useState("");
 
   const addTodo = (e: FormEvent) => {
     e.preventDefault();

@@ -1,7 +1,7 @@
 import { EntityId } from "@reduxjs/toolkit";
 import classNames from "classnames";
 import { useState } from "react";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   // receiveTodo,
   selectTodoById,
@@ -23,7 +23,7 @@ export const ToDoListItem = ({ todoId }: ToDoListItemProps) => {
   const todo = useAppSelector((state) => selectTodoById(state, todoId));
   const [isOpen, setOpen] = useState(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   if (!todo) {
     return null;

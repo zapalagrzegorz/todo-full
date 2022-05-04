@@ -1,12 +1,12 @@
 import { Button, Typography } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../app/hooks";
 import { removeStep, ToDoItemStep, updateStep } from "./stepsSlice";
 
 interface StepListItemProps {
   step: ToDoItemStep;
 }
 export const StepListItem = ({ step }: StepListItemProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleToggleDone = () => {
     dispatch(updateStep({ ...step, done: !step.done }));

@@ -1,15 +1,14 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import classNames from "classnames";
 import { Button, Collapse, IconButton, Stack, Typography } from "@mui/material";
 import { StepsList } from "../steps/StepsList";
 import styles from "./Todo.module.scss";
 import { deleteTodo, IToDoItem } from "./todosSlice";
 import { fetchSteps, selectStepsByTodoId } from "../steps/stepsSlice";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 export const ToDoDetails = (props: { todo: IToDoItem }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { todo } = props;
   const todoId = todo.id;
