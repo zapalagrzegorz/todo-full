@@ -13,11 +13,7 @@ export const createUser = async (userForm: IUserForm) => {
     // throw new Error("No CSRF Token");
   }
   try {
-    const response = await client.post(
-      `${API_ORIGIN}/api/users`,
-      userForm,
-      config
-    );
+    const response = await client.post(`/api/users`, userForm, config);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -35,11 +31,7 @@ export const loginUser = async (userForm: IUserForm) => {
     // throw new Error("No CSRF Token");
   }
   try {
-    const response = await client.post(
-      `${API_ORIGIN}/api/session`,
-      userForm,
-      config
-    );
+    const response = await client.post(`/api/session`, userForm, config);
     return response.data;
     // dispatch(receiveCurrentUser(response.data));s
   } catch (err) {
@@ -58,7 +50,7 @@ export const logoutUser = async () => {
     // throw new Error("No CSRF Token");
   }
   try {
-    const response = await client.delete(`${API_ORIGIN}/api/session`, config);
+    const response = await client.delete(`/api/session`, config);
     return response.data;
   } catch (err) {
     console.log(err);

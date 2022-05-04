@@ -4,7 +4,7 @@ import { IToDoItem, IToDoItemContent } from "./todosSlice";
 import { API_ORIGIN } from "../../api/environment";
 
 export const fetchTodos = async () => {
-  const response = await client.get("http://localhost:3000/api/todos");
+  const response = await client.get("/api/todos");
   return response.data;
 };
 
@@ -18,13 +18,13 @@ export const createTodo = async (body: IToDoItemContent) => {
   } else {
     // throw new Error("No CSRF Token");
   }
-  const response = await client.post(`${API_ORIGIN}/api/todos`, body, config);
+  const response = await client.post(`/api/todos`, body, config);
   return response.data;
 };
 
 export const updateTodo = async (updateTodo: IToDoItem) => {
   const response = await client.patch(
-    `${API_ORIGIN}/api/todos/${updateTodo.id}`,
+    `/api/todos/${updateTodo.id}`,
     updateTodo
   );
   return response.data;
@@ -39,9 +39,6 @@ export const deleteTodo = async (body: number) => {
   } else {
     // throw new Error("No CSRF Token");
   }
-  const response = await client.delete(
-    `${API_ORIGIN}/api/todos/${body}`,
-    config
-  );
+  const response = await client.delete(`/api/todos/${body}`, config);
   return response.data;
 };

@@ -56,7 +56,7 @@ export const Navbar = () => {
         {signOutButton}
         {alert}
         <Typography variant="h2" component="h1" align="center">
-          Yet another To-do {process.env.NODE_ENV}
+          Yet another To-do {process.env.REACT_APP_API_ORIGIN}
         </Typography>
       </Paper>
     </Container>

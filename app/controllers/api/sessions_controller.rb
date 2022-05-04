@@ -11,7 +11,7 @@ class Api::SessionsController < ApplicationController
     else
       @user = User.new
       flash.now[:errors] = @user.errors.full_messages
-      render :new
+      # render 'api/users/show'
     end
   end
 

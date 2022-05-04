@@ -35,6 +35,9 @@ export async function client(endpoint: string, clientArg = {}) {
     config.body = JSON.stringify(body);
   }
 
+  if (process.env.NODE_ENV === "development") {
+    endpoint = "http://localhost:3000" + endpoint;
+  }
   let data;
   try {
     const response = await window.fetch(endpoint, config);
