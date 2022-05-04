@@ -16,11 +16,16 @@ import { Navbar } from "./app/Navbar";
 import { useAppSelector } from "./app/hooks";
 
 function App() {
-  const sessionStatus = useAppSelector((state) => state.session.status);
+  const { currentUser } = useAppSelector((state) => state.session);
   // called twice when not in useEffect!
   useEffect(() => {
     // dispatch(receiveTodos(initialState));
   }, []);
+
+  let renderedRedirect = null;
+  if (!currentUser) {
+    renderedRedirect = <Redirect to="/login" />;
+  }
 
   return (
     <Router>
@@ -28,8 +33,8 @@ function App() {
         <Navbar />
         <Switch>
           <Route exact={true} path="/">
-            {!sessionStatus ? (
-              <Redirect to="/login" />
+            {renderedRedirect ? (
+              renderedRedirect
             ) : (
               <Container>
                 <Stack spacing={2}>
